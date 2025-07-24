@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ziondials/go-cdr/config"
+	"github.com/eds-ch/Go-CDR-V/config"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"

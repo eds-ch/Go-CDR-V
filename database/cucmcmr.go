@@ -1,4 +1,5 @@
 // Copyright (c) 2023 Zion Dials <me@ziondials.com>
+// Modifications Copyright (c) 2025 eds-ch
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,12 +16,63 @@
 
 package database
 
-import "github.com/ziondials/go-cdr/models"
+import (
+	"fmt"
+
+	"github.com/eds-ch/Go-CDR-V/models"
+)
 
 func (ds DataService) CreateCucmCMRs(cdrs []*models.CucmCmr) error {
+	cdrValues := make([]models.CucmCmr, len(cdrs))
+	for i, cdr := range cdrs {
+		if cdr != nil {
+			cdrValues[i] = *cdr
+		}
+	}
 
-	if rsp := ds.Session.CreateInBatches(&cdrs, int(ds.Config.Limit)); rsp.Error != nil {
-		return rsp.Error
+	return ds.WriteCMRs(cdrValues)
+}
+
+func (ds *DataService) WriteCMRs(cdrs []models.CucmCmr) error {
+	if len(cdrs) == 0 {
+		return nil
+	}
+
+	if ds.Session.Dialector.Name() == "clickhouse" {
+		return ds.writeClickHouseCMRs(cdrs)
+	}
+
+	limit := int(ds.Config.Limit)
+	if limit <= 0 {
+		limit = 100
+	}
+	if err := ds.Session.CreateInBatches(cdrs, limit).Error; err != nil {
+		return fmt.Errorf("failed to write CMRs: %w", err)
+	}
+
+	return nil
+}
+
+func (ds *DataService) writeClickHouseCMRs(cdrs []models.CucmCmr) error {
+	batchSize := int(ds.Config.Limit)
+	if batchSize <= 0 {
+		batchSize = 5000
+	}
+
+	db := ds.Session
+	tableName := fmt.Sprintf("%s.cucm_cmrs", ds.Config.Database)
+
+	for i := 0; i < len(cdrs); i += batchSize {
+		end := i + batchSize
+		if end > len(cdrs) {
+			end = len(cdrs)
+		}
+
+		batch := cdrs[i:end]
+
+		if err := db.Table(tableName).CreateInBatches(batch, len(batch)).Error; err != nil {
+			return fmt.Errorf("failed to write ClickHouse CMR batch: %w", err)
+		}
 	}
 
 	return nil

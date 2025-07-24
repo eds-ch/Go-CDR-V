@@ -19,8 +19,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/ziondials/go-cdr/database"
-	"github.com/ziondials/go-cdr/logger"
+	"github.com/eds-ch/Go-CDR-V/database"
+	"github.com/eds-ch/Go-CDR-V/logger"
 )
 
 func ParseFiles(inputDirectory string, outputDirectory string, fileType string, deleteOriginal bool, db *database.DataService) {

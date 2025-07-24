@@ -1,7 +1,9 @@
-# Go-CDR
+# Go-CDR-V
 
 Parses Cisco Collaboration Manager (CUCM/CCM) CDR/CMR files as well as Cisco UBE (CUBE) CDR files and inserts them into a database.
 Inserts CDR/CMR records in bulk to improve performance, and utilizes UTC time for insertion. If the files are not in UTC time, the time will be converted to UTC time.
+
+This project is a fork of [ZionDials/Go-CDR](https://github.com/ZionDials/Go-CDR) with added ClickHouse database support and several minor fixes.
 
 ## Usage
 
@@ -12,7 +14,7 @@ go-cdr parse --config "config.yaml"
 ## Limitations
 
 * Only supports CUCM/CCM and CUBE CDR/CMR files
-* Only supports SQLite, PostgreSQL, MySQL, and Microsoft SQL Server databases
+* Only supports SQLite, PostgreSQL, MySQL, Microsoft SQL Server, and ClickHouse databases
 * Only supports CDR/CMR files in CSV format
 * Will parse directories in single-threaded mode, i.e. one directory at a time
 
@@ -29,17 +31,31 @@ gw-accounting file
 
 ## Example Config
 
+### PostgreSQL Example
 ``` yaml
 database:
   autoMigrate: true # Migrate the database schema on startup
   database: cdr # Database name
-  driver: postgres # Database driver (mysql|mssql|postgres|sqlite)
+  driver: postgres # Database driver (mysql|mssql|postgres|sqlite|clickhouse)
   host: localhost # Database host
   limit: 100 # Maximum number of records to insert in bulk
   password: 012345abc # Database password
   port: 5432 # Database port
   username: postgres # Database username
   SSL: disable # Database SSL mode (disable|require|verify-ca|verify-full)
+
+### ClickHouse Example
+``` yaml
+database:
+  autoMigrate: true # Migrate the database schema on startup
+  database: cdr # Database name
+  driver: clickhouse # Database driver
+  host: localhost # ClickHouse host
+  limit: 1000 # Maximum number of records to insert in bulk (higher for ClickHouse)
+  password: "" # ClickHouse password (empty for default user)
+  port: 9000 # ClickHouse native port (9000 for native, 8123 for HTTP)
+  username: default # ClickHouse username
+  SSL: false # Use secure connection (true/false)
 logging:
   compress: false # Compress log files
   level: info # Logging level (debug|info|warn|error|fatal|panic)

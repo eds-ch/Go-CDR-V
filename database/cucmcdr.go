@@ -15,13 +15,15 @@
 
 package database
 
-import "github.com/ziondials/go-cdr/models"
+import "github.com/eds-ch/Go-CDR-V/models"
 
 func (ds DataService) CreateCucmCDRs(cdrs []*models.CucmCdr) error {
-
-	if rsp := ds.Session.CreateInBatches(&cdrs, int(ds.Config.Limit)); rsp.Error != nil {
-		return rsp.Error
+	cdrValues := make([]models.CucmCdr, len(cdrs))
+	for i, cdr := range cdrs {
+		if cdr != nil {
+			cdrValues[i] = *cdr
+		}
 	}
 
-	return nil
+	return ds.WriteCDRs(cdrValues)
 }

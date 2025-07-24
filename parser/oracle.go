@@ -19,9 +19,9 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/ziondials/go-cdr/database"
-	"github.com/ziondials/go-cdr/helpers"
-	"github.com/ziondials/go-cdr/logger"
+	"github.com/eds-ch/Go-CDR-V/database"
+	"github.com/eds-ch/Go-CDR-V/helpers"
+	"github.com/eds-ch/Go-CDR-V/logger"
 )
 
 func ParseOracleCDRs(inputFile string, db *database.DataService, outputDirectory string, deleteOriginal bool) {

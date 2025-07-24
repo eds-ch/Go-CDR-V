@@ -1,4 +1,5 @@
 // Copyright (c) 2023 Zion Dials <me@ziondials.com>
+// Modifications Copyright (c) 2025 eds-ch
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,6 +26,15 @@ func ContainsString(slice *[]string, s *string) bool {
 }
 
 func ContainsInt(slice *[]int, i *int) bool {
+	for _, v := range *slice {
+		if &v == i {
+			return true
+		}
+	}
+	return false
+}
+
+func ContainsInt64(slice *[]int64, i *int64) bool {
 	for _, v := range *slice {
 		if &v == i {
 			return true

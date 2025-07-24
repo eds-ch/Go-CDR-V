@@ -15,7 +15,7 @@
 
 package main
 
-import "github.com/ziondials/go-cdr/cmd"
+import "github.com/eds-ch/Go-CDR-V/cmd"
 
 func main() {
 	cmd.Execute()

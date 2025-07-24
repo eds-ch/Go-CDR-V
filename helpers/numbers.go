@@ -1,4 +1,5 @@
 // Copyright (c) 2023 Zion Dials <me@ziondials.com>
+// Modifications Copyright (c) 2025 eds-ch
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,10 +18,11 @@ package helpers
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 
-	"github.com/ziondials/go-cdr/logger"
+	"github.com/eds-ch/Go-CDR-V/logger"
 )
 
 const PhoneNumberSplit = "#:"
@@ -89,14 +91,19 @@ func ConvertStringToFloat64(s *string) (*float64, error) {
 	if s == nil {
 		return nil, nil
 	}
-	newString := stringToIntReg.ReplaceAllString(*s, "")
+
+	// For float64, preserve decimal points and remove only non-numeric characters except decimal point
+	// Remove everything except digits and decimal point
+	floatReg := regexp.MustCompile("[^0-9.-]+")
+	newString := floatReg.ReplaceAllString(*s, "")
+
 	if newString != "" {
-		integer, err := strconv.ParseFloat(strings.TrimSpace(newString), 64)
+		floatVal, err := strconv.ParseFloat(strings.TrimSpace(newString), 64)
 		if err != nil {
-			logger.Error("Error converting string to int: %s", err)
-			return nil, fmt.Errorf("error converting string to int: %s", err)
+			logger.Error("Error converting string to float64: %s", err)
+			return nil, fmt.Errorf("error converting string to float64: %s", err)
 		}
-		return &integer, nil
+		return &floatVal, nil
 	} else {
 		return nil, nil
 	}

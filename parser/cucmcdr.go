@@ -1,4 +1,5 @@
 // Copyright (c) 2023 Zion Dials <me@ziondials.com>
+// Modifications Copyright (c) 2025 eds-ch
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,9 +24,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/ziondials/go-cdr/helpers"
-	"github.com/ziondials/go-cdr/logger"
-	"github.com/ziondials/go-cdr/models"
+	"github.com/eds-ch/Go-CDR-V/helpers"
+	"github.com/eds-ch/Go-CDR-V/logger"
+	"github.com/eds-ch/Go-CDR-V/models"
 )
 
 func ParseCucmCDRFile(inputFile string) ([]*models.CucmCdr, error) {

@@ -1,4 +1,5 @@
 // Copyright (c) 2023 Zion Dials <me@ziondials.com>
+// Modifications Copyright (c) 2025 eds-ch
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

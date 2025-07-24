@@ -16,10 +16,10 @@
 package cmd
 
 import (
+	"github.com/eds-ch/Go-CDR-V/config"
+	"github.com/eds-ch/Go-CDR-V/cron"
+	"github.com/eds-ch/Go-CDR-V/logger"
 	"github.com/spf13/cobra"
-	"github.com/ziondials/go-cdr/config"
-	"github.com/ziondials/go-cdr/cron"
-	"github.com/ziondials/go-cdr/logger"
 )
 
 // parseCmd represents the parse command

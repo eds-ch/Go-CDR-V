@@ -19,9 +19,9 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/ziondials/go-cdr/database"
-	"github.com/ziondials/go-cdr/helpers"
-	"github.com/ziondials/go-cdr/logger"
+	"github.com/eds-ch/Go-CDR-V/database"
+	"github.com/eds-ch/Go-CDR-V/helpers"
+	"github.com/eds-ch/Go-CDR-V/logger"
 )
 
 func ParseCUCMCDRs(inputFile string, db *database.DataService, outputDirectory string, deleteOriginal bool) {
@@ -46,7 +46,7 @@ func ParseCUCMCDRs(inputFile string, db *database.DataService, outputDirectory s
 				if err != nil {
 					logger.Error("Error while moving file: %s", err.Error())
 				} else {
-					logger.Info("Successfully moved file to failed directory: %s", inputFile)
+					logger.Info("Successfully moved file to completed directory: %s", inputFile)
 				}
 			}
 		} else if len(cdrs) == 0 && err == nil {

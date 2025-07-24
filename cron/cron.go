@@ -18,15 +18,16 @@ package cron
 import (
 	"time"
 
+	"github.com/eds-ch/Go-CDR-V/config"
+	"github.com/eds-ch/Go-CDR-V/database"
+	"github.com/eds-ch/Go-CDR-V/parser"
 	"github.com/go-co-op/gocron"
-	"github.com/ziondials/go-cdr/config"
-	"github.com/ziondials/go-cdr/database"
-	"github.com/ziondials/go-cdr/parser"
 )
 
 func RunCronJobs() {
 
-	db := database.InitDB()
+	dbConfig := config.GetDatabaseFromGlobalConfig()
+	db := database.InitDB(*dbConfig)
 	s := gocron.NewScheduler(time.UTC)
 
 	parseInterval := config.GetParserFromGlobalConfig().ParseInterval

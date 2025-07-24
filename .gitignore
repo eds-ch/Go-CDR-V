@@ -4,42 +4,130 @@
 *.dll
 *.so
 *.dylib
+go-cdr
+/go-cdr
 
 # Test binary, built with `go test -c`
 *.test
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+*.cover
+coverage.txt
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
 # Go workspace file
 go.work
+go.work.sum
 
-# Db files
+# Go module cache
+/go/pkg/mod/
+
+# Database files
 *.db*
+*.sqlite*
 
 # Log files
 *.log
 *.log.gz
+logs/
+/logs/
 
-# Configuration files
-conf/*
+# Configuration files with sensitive data
+config_*_test.yaml
+config_*_prod.yaml  
+config_*_dev.yaml
+config_postgres_*.yaml
+config_clickhouse_*.yaml
+config_mysql_*.yaml
+*_config.yaml
 dev.yaml
+prod.yaml
+local.yaml
 *.env
+.env*
+secrets.yaml
 
-# Examples
-examples/*
+# Application data directories
+cdr-data/
+/cdr-data/
+data/
+/data/
 
-# IDE files
-.vscode/*
+# Temporary and backup files
+*.tmp
+*.temp
+*.bak
+*.backup
+*~
+.#*
+\#*#
 
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Build and distribution
 dist/
+build/
+bin/
+target/
 
-# Test Data
-/data
+# Examples and documentation
+examples/*
+!examples/README.md
+!examples/*.example.yaml
 
-# Configs
-*.json
-*.yaml
+# Old project artifacts
+old_project/
+
+# Temporary scripts and SQL files (but allow important ones)
+*.sql
+*.sh
+# But allow specific important scripts
+!scripts/
+!migrations/
+!docs/
+
+# Tools directory (but allow important tools)
+tools/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.lnk
+
+# Project analysis files
+project_analys.md
+analysis_*.md
+
+# Test and debug files
+debug
+*.pprof
+*.trace
+
+# Editor backup files
+*~
+.#*
+\#*#
+*.orig
+
+# Generated documentation
+docs/generated/
+
+# Runtime files
+pid
+*.pid
+*.lock

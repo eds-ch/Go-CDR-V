@@ -1,4 +1,5 @@
 // Copyright (c) 2023 Zion Dials <me@ziondials.com>
+// Modifications Copyright (c) 2025 eds-ch
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/ziondials/go-cdr/helpers"
-	"github.com/ziondials/go-cdr/logger"
+	"github.com/eds-ch/Go-CDR-V/helpers"
+	"github.com/eds-ch/Go-CDR-V/logger"
 )
 
 var (
@@ -34,15 +35,15 @@ var (
 	RESUMECode       = "RESUME"
 	PhoneNumberSplit = "#:"
 
-	CubeLegTypeTelephony  = 1
-	CubeLegTypeVoIP       = 2
-	CubeLegTypeMMOIP      = 3
-	CubeLegTypeFrameRelay = 4
-	CubeLegTypeATM        = 5
+	CubeLegTypeTelephony  = int64(1)
+	CubeLegTypeVoIP       = int64(2)
+	CubeLegTypeMMOIP      = int64(3)
+	CubeLegTypeFrameRelay = int64(4)
+	CubeLegTypeATM        = int64(5)
 
 	CubeSessionProtocols = []string{"sip", "Cisco", "sipv2", "other"}
 
-	CubeLegTypes = []int{CubeLegTypeTelephony, CubeLegTypeVoIP, CubeLegTypeMMOIP, CubeLegTypeFrameRelay, CubeLegTypeATM}
+	CubeLegTypes = []int64{CubeLegTypeTelephony, CubeLegTypeVoIP, CubeLegTypeMMOIP, CubeLegTypeFrameRelay, CubeLegTypeATM}
 
 	H323CauseCodes = []string{
 		"1B",
@@ -256,7 +257,7 @@ type CubeCDR struct {
 	IpPbxMode                       *string
 	IpPhoneInfo                     *string
 	LatePackets                     *int64
-	LegType                         *int // `gorm:"uniqueIndex:cube_cdr_index"`
+	LegType                         *int64 // `gorm:"uniqueIndex:cube_cdr_index"`
 	LocalHostname                   *string
 	LogicalIfIndex                  *int64
 	LostPackets                     *int64
@@ -417,7 +418,7 @@ func (raw *RawCubeCDR) Parse(filename string) (*CubeCDR, error) {
 	var ParsedIpPbxMode *string
 	var ParsedIpPhoneInfo *string
 	var ParsedLatePackets *int64
-	var ParsedLegType *int
+	var ParsedLegType *int64
 	var ParsedLogicalIfIndex *int64
 	var ParsedLostPackets *int64
 	var ParsedLowaterPlayoutDelay *int64
@@ -686,14 +687,14 @@ func (raw *RawCubeCDR) Parse(filename string) (*CubeCDR, error) {
 		logger.Error("Error parsing LatePackets: %s in %s", err, filename)
 	}
 
-	ConvertedLegType, err := helpers.ConvertStringToInt(raw.LegType)
+	ConvertedLegType, err := helpers.ConvertStringToInt64(raw.LegType)
 	if err != nil {
 		logger.Error("Error parsing LegType: %d in %s", *ConvertedLegType, filename)
 		ParsedLegType = nil
 	}
 
 	if ConvertedLegType != nil {
-		if helpers.ContainsInt(&CubeLegTypes, ConvertedLegType) {
+		if helpers.ContainsInt64(&CubeLegTypes, ConvertedLegType) {
 			logger.Error("Error Invalid LegType: %d in %s", *ConvertedLegType, filename)
 			ParsedLegType = nil
 		} else {

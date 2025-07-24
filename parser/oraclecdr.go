@@ -23,8 +23,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/ziondials/go-cdr/logger"
-	"github.com/ziondials/go-cdr/models"
+	"github.com/eds-ch/Go-CDR-V/logger"
+	"github.com/eds-ch/Go-CDR-V/models"
 )
 
 func ParseOracleCDRFile(inputFile string) ([]*models.CubeCDR, error) {
